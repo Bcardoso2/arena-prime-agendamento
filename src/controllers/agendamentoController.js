@@ -54,16 +54,19 @@ exports.listarAgendamentosPorData = async (req, res) => {
 exports.listarPendentes = async (req, res) => {
     try {
         const [pendentes] = await db.query(
-            `SELECT a.id, a.data_hora_inicio, a.preco, u.nome as nome_cliente 
+            `SELECT a.id, a.data_hora_inicio, a.preco, a.status, u.nome as nome_cliente 
              FROM agendamentos a 
              JOIN usuarios u ON a.id_usuario = u.id 
-             WHERE a.status = 'pendente_aprovacao' ORDER BY a.data_hora_inicio ASC`);
+             WHERE a.status = 'pendente_aprovacao' 
+             ORDER BY a.data_hora_inicio ASC`
+        );
         res.status(200).json(pendentes);
     } catch (error) {
         console.error("Erro ao listar pendentes:", error);
         res.status(500).json({ message: "Erro interno no servidor." });
     }
 };
+
 
 // Admin: Atualizar status de um agendamento (Aprovar/Reprovar)
 exports.atualizarStatus = async (req, res) => {
