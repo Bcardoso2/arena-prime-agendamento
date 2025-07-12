@@ -10,10 +10,7 @@ const db = require('./src/config/db');
 const app = express();
 
 // Middlewares
-app.use(cors({
-  origin: ['http://localhost:5173', 'http://localhost:3000'], // Adicione as URLs permitidas
-  credentials: true
-}));
+app.use(cors());
 app.use(express.json());
 
 // Importa as rotas
